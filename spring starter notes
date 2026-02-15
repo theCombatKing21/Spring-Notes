@@ -1,0 +1,311 @@
+=============================
+SPRING + SPRING BOOT REVISION NOTES
+=============================
+1. What is Spring?
+
+Spring is a lightweight Java framework used to build enterprise applications.
+
+Core features:
+
+Dependency Injection (DI)
+
+Inversion of Control (IoC)
+
+Modular architecture (MVC, Data, Security, etc.)
+
+Reduces boilerplate code
+
+Promotes loose coupling
+
+Spring manages object creation and lifecycle using a container called ApplicationContext.
+
+2. What is Spring Boot?
+
+Spring Boot is built on top of Spring.
+
+It simplifies application development by:
+
+Auto-configuration
+
+Embedded server (Tomcat)
+
+Starter dependencies
+
+Minimal configuration
+
+Production-ready features (Actuator)
+
+Difference:
+
+Spring:
+
+Manual configuration
+
+External server required
+
+More setup
+
+Spring Boot:
+
+Auto-configures components
+
+Embedded server
+
+Faster development
+
+Interview line:
+Spring Boot reduces configuration overhead and makes Spring applications easier to build and deploy.
+
+3. Inversion of Control (IoC)
+
+IoC means that object creation and lifecycle management are handled by the Spring container instead of the developer.
+
+Traditional:
+Class creates its own dependencies.
+
+Spring:
+Container creates and injects dependencies.
+
+IoC is implemented using Dependency Injection.
+
+4. Dependency Injection (DI)
+
+Dependency Injection is a design pattern where dependencies are provided externally rather than created inside the class.
+
+Types of DI:
+
+Constructor Injection (Recommended)
+
+Setter Injection
+
+Field Injection (Not recommended in interviews)
+
+Why constructor injection is preferred:
+
+Makes dependencies explicit
+
+Supports immutability
+
+Easier for testing
+
+Prevents NullPointerException
+
+Interview line:
+DI promotes loose coupling and better testability.
+
+5. Loose Coupling vs Tight Coupling
+
+Tight Coupling:
+Class directly depends on concrete implementation.
+
+Loose Coupling:
+Class depends on interface or abstraction.
+
+Spring promotes loose coupling using DI.
+
+Benefits:
+
+Easier testing
+
+Flexible implementation
+
+Better maintainability
+
+6. ApplicationContext
+
+ApplicationContext is the core Spring container.
+
+Responsibilities:
+
+Creates beans
+
+Manages lifecycle
+
+Injects dependencies
+
+Handles configuration
+
+In Spring Boot, it is created automatically when the application starts.
+
+7. What Happens When Spring Boot Starts?
+
+main() method runs
+
+SpringApplication.run() is called
+
+ApplicationContext is created
+
+Component scanning runs
+
+Beans are created and initialized
+
+Auto-configuration is applied
+
+Embedded server starts
+
+Application becomes ready
+
+Important term:
+DispatcherServlet handles incoming HTTP requests.
+
+=============================
+SPRING ANNOTATIONS (Detailed Explanation)
+=============================
+1. @SpringBootApplication
+
+This is the main annotation in a Spring Boot application.
+
+It is a combination of:
+
+@Configuration
+
+@EnableAutoConfiguration
+
+@ComponentScan
+
+Purpose:
+
+Marks main class as configuration
+
+Enables auto-configuration
+
+Enables component scanning
+
+Placed on the main class.
+
+2. @Component
+
+Generic stereotype annotation.
+
+Marks a class as a Spring-managed bean.
+
+Spring detects it during component scanning and registers it in ApplicationContext.
+
+Used for:
+Any generic component that does not fit in Service/Repository/Controller.
+
+3. @Service
+
+Specialized version of @Component.
+
+Used for:
+Business logic layer.
+
+Purpose:
+
+Semantically indicates business service
+
+Makes code more readable
+
+May have additional Spring features later
+
+Example:
+ExpenseService handles business rules.
+
+Interview line:
+@Service indicates that the class contains business logic.
+
+4. @Repository
+
+Specialized version of @Component.
+
+Used for:
+Data access layer.
+
+Special feature:
+
+Translates database exceptions into Spring’s DataAccessException.
+
+Purpose:
+Indicates interaction with database.
+
+5. @Controller
+
+Used in Spring MVC applications.
+
+Returns:
+View (HTML page).
+
+Used when building:
+Web apps with Thymeleaf/JSP.
+
+6. @RestController
+
+Combination of:
+
+@Controller
+
+@ResponseBody
+
+Used for:
+REST APIs.
+
+Returns:
+JSON response directly.
+
+Most common in backend applications.
+
+7. @Autowired
+
+Used for Dependency Injection.
+
+Tells Spring to inject a matching bean.
+
+Works on:
+
+Constructor
+
+Field
+
+Setter
+
+Modern Spring:
+If there is only one constructor, @Autowired is optional.
+
+8. @ComponentScan
+
+Tells Spring where to look for beans.
+
+By default:
+Spring scans the package of the main class and its sub-packages.
+
+If classes are outside base package:
+They will NOT be detected unless explicitly configured.
+
+9. @Configuration
+
+Marks a class as a source of bean definitions.
+
+Used when defining custom beans manually using @Bean.
+
+10. @Bean
+
+Used inside a @Configuration class.
+
+Purpose:
+Manually register a bean in Spring container.
+
+Used when:
+
+Third-party classes
+
+Custom configuration needed
+
+QUICK INTERVIEW SUMMARY
+
+Spring = DI + IoC framework
+Spring Boot = Opinionated layer that simplifies Spring
+
+IoC = Container controls object lifecycle
+DI = Dependencies injected externally
+
+ApplicationContext = Core Spring container
+
+Startup Flow:
+main → run → context → scan → create beans → start server
+
+@Controller = Web MVC
+@RestController = REST API
+@Service = Business logic
+@Repository = Data access
+@Component = Generic bean
