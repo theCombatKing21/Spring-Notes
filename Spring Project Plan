@@ -1,0 +1,363 @@
+SPRING PROJECT EXPENSE TRACKER First Plan
+-----------------------------------------
+
+1️⃣ What is an Expense Tracker App
+
+An Expense Tracker is a backend system that allows users to record, manage, and analyze their spending.
+
+Typical use cases:
+
+Track daily expenses
+
+Categorize spending (food, travel, rent, etc.)
+
+View spending history
+
+Analyze spending patterns
+
+Example:
+
+User adds:
+
+Date	Category	Amount	Description
+10 Mar	Food	500	Lunch
+11 Mar	Transport	200	Cab
+
+The system stores this and allows retrieval.
+
+2️⃣ What Does It Do (System Responsibilities)
+
+Core responsibilities of the system:
+
+1. User Management
+
+Users can register and log in.
+
+(For now we may keep it simple and later add JWT)
+
+2. Expense Management
+
+User should be able to:
+
+Add expense
+
+Update expense
+
+Delete expense
+
+View expenses
+
+3. Categorization
+
+Expenses belong to categories like:
+
+Food
+
+Travel
+
+Shopping
+
+Bills
+
+This helps organize spending.
+
+4. Filtering
+
+Basic filters like:
+
+Get expenses by user
+
+Get expenses by category
+
+Get expenses by date range (optional)
+
+3️⃣ High-Level Architecture
+
+Even though it's a monolith, we will design it like this:
+
+Client (Postman / Frontend)
+
+        ↓
+
+Controller Layer
+(REST APIs)
+
+        ↓
+
+Service Layer
+(Business Logic)
+
+        ↓
+
+Repository Layer
+(Database Access)
+
+        ↓
+
+Database
+(PostgreSQL)
+
+This architecture is very important in interviews.
+
+You can say:
+
+I followed a layered architecture separating controller, service, and repository responsibilities.
+
+4️⃣ Project Folder Structure
+
+Clean and industry standard.
+
+expense-tracker
+│
+├── controller
+│       ExpenseController
+│       UserController
+│
+├── service
+│       ExpenseService
+│       UserService
+│
+├── repository
+│       ExpenseRepository
+│       UserRepository
+│
+├── entity
+│       Expense
+│       User
+│       Category
+│
+├── dto
+│       ExpenseRequestDTO
+│       ExpenseResponseDTO
+│
+├── config
+│       SecurityConfig (later)
+│
+├── exception
+│       GlobalExceptionHandler
+│
+└── ExpenseTrackerApplication
+
+Even if you don't implement everything now, structure should exist.
+
+5️⃣ Entities (Database Design)
+
+We will keep 3 main entities.
+
+User
+
+Represents a person using the app.
+
+Fields:
+
+User
+----
+id
+name
+email
+password
+createdAt
+
+Relationships:
+
+User 1 ---- * Expense
+
+One user can have many expenses.
+
+Expense
+
+Represents a spending entry.
+
+Fields:
+
+Expense
+-------
+id
+title
+amount
+description
+date
+user_id
+category_id
+
+Relationships:
+
+Expense * ---- 1 User
+Expense * ---- 1 Category
+Category
+
+Represents expense category.
+
+Fields:
+
+Category
+--------
+id
+name
+
+Examples:
+
+Food
+
+Travel
+
+Bills
+
+Shopping
+
+6️⃣ Basic Operations (Minimal CRUD)
+
+To keep it simple but useful:
+
+User APIs
+POST /users
+Create user
+
+GET /users/{id}
+Get user
+
+Later this will become:
+
+POST /auth/register
+POST /auth/login
+Expense APIs
+
+Core functionality.
+
+POST /expenses
+Create expense
+
+GET /expenses
+Get all expenses
+
+GET /expenses/{id}
+Get expense by id
+
+PUT /expenses/{id}
+Update expense
+
+DELETE /expenses/{id}
+Delete expense
+
+Optional but good:
+
+GET /users/{userId}/expenses
+Category APIs
+
+Very simple.
+
+POST /categories
+GET /categories
+7️⃣ Database Relationships (Important for JPA)
+User
+  |
+  | 1
+  |
+  |------< Expense >------| 1
+                         |
+                      Category
+
+Meaning:
+
+User (1) -> (Many) Expense
+Category (1) -> (Many) Expense
+
+This allows you to practice:
+
+@OneToMany
+
+@ManyToOne
+
+@JoinColumn
+
+Which is exactly what you will learn in Spring Data JPA.
+
+8️⃣ How This Project Can Grow Later
+
+We are intentionally designing it to allow upgrades.
+
+1️⃣ Authentication (JWT)
+
+Later you can add:
+
+POST /auth/register
+POST /auth/login
+
+JWT will protect endpoints like:
+
+POST /expenses
+DELETE /expenses
+2️⃣ Microservices (Future)
+
+This monolith can be split like:
+
+User Service
+Expense Service
+Auth Service
+3️⃣ Additional Features
+
+Possible improvements:
+
+Monthly spending report
+
+Expense summary
+
+Pagination
+
+Sorting
+
+Filtering
+
+Budget tracking
+
+9️⃣ What Interviewers Will Like
+
+From this project you can talk about:
+
+Spring Boot REST APIs
+
+Layered architecture
+
+JPA entity relationships
+
+DTO pattern
+
+Exception handling
+
+Authentication (JWT)
+
+Database design
+
+That’s a very strong backend project.
+
+🔟 What We Will Implement First
+
+Step-by-step plan:
+
+Phase 1 (Next Step)
+
+Project setup + entities
+
+User
+Category
+Expense
+
+No DB logic yet.
+
+Phase 2
+
+Spring Data JPA
+
+Repository layer
+Phase 3
+
+CRUD APIs
+
+Controller + Service
+Phase 4
+
+DTO + Exception Handling
+
+Phase 5
+
+JWT Authentication
